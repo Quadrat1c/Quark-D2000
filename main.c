@@ -255,6 +255,110 @@ void LED_SEQ_5R()
     qm_gpio_clear_pin(QM_GPIO_0, LED_ENABLE);
 }
 
+void startUp()
+{
+   qm_gpio_set_pin(QM_GPIO_0, LED_ENABLE);
+
+   qm_gpio_set_pin(QM_GPIO_0, LED_EYE_LEFT);
+   clk_sys_udelay(DELAY);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_LEFT);
+   clk_sys_udelay(DELAY);
+   qm_gpio_set_pin(QM_GPIO_0, LED_EYE_RIGHT);
+   clk_sys_udelay(DELAY);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_RIGHT);
+   clk_sys_udelay(DELAY);
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
+   clk_sys_udelay(DELAY);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
+   clk_sys_udelay(DELAY);
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
+   clk_sys_udelay(DELAY);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
+   clk_sys_udelay(DELAY);
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
+   clk_sys_udelay(DELAY);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
+   clk_sys_udelay(DELAY);
+
+   qm_gpio_set_pin(QM_GPIO_0, LED_EYE_LEFT);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_LEFT);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_set_pin(QM_GPIO_0, LED_EYE_RIGHT);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_RIGHT);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
+   clk_sys_udelay(DELAY2);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
+   clk_sys_udelay(DELAY2);
+
+   int delayTime = 50000;
+   for (delayTime = 50000;
+        delayTime >= 1000;
+        delayTime -= delayTime / 10)
+   {
+       qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
+       clk_sys_udelay(delayTime);
+       qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
+       clk_sys_udelay(delayTime);
+       qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
+       clk_sys_udelay(delayTime);
+       qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
+       clk_sys_udelay(delayTime);
+       qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
+       clk_sys_udelay(delayTime);
+       qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
+       clk_sys_udelay(delayTime);
+       qm_gpio_set_pin(QM_GPIO_0, LED_EYE_RIGHT);
+       clk_sys_udelay(delayTime);
+       qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_RIGHT);
+       clk_sys_udelay(delayTime);
+       qm_gpio_set_pin(QM_GPIO_0, LED_EYE_LEFT);
+       clk_sys_udelay(delayTime);
+       qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_LEFT);
+   }
+
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
+   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
+   qm_gpio_set_pin(QM_GPIO_0, LED_EYE_RIGHT);
+   qm_gpio_set_pin(QM_GPIO_0, LED_EYE_LEFT);
+
+   // All up.
+   for (int i = 0; i < 120; i++)
+   {
+       qm_gpio_set_pin(QM_GPIO_0, LED_ENABLE);
+       clk_sys_udelay(i * 69);
+       qm_gpio_clear_pin(QM_GPIO_0, LED_ENABLE);
+       clk_sys_udelay((120 - i) * 69);
+   }
+
+   // All down.
+   for (int i = 0; i < 120; i++)
+   {
+       qm_gpio_set_pin(QM_GPIO_0, LED_ENABLE);
+       clk_sys_udelay((120 - i) * 69);
+       qm_gpio_clear_pin(QM_GPIO_0, LED_ENABLE);
+       clk_sys_udelay(i * 69);
+   }
+
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_RIGHT);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_LEFT);
+   qm_gpio_clear_pin(QM_GPIO_0, LED_ENABLE);
+}
+
 void LED_LOAD()
 {
     // Eyes up-down.
