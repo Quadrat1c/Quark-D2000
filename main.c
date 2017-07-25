@@ -62,16 +62,7 @@ int lfsr()
         & 0x0000001)                    // Strip all the other bits off and
         <<31)                           // move it back to the 32nd bit.
         | (lfsr_state >> 1);            // Or with the register shifted right.
-    return lfsr_state;   
-}
-
-void LED_LOAD()
-{
-    // Eyes up-down.
-    LED_SEQ_3();
-    // Spiral
-    LED_SEQ_5L();
-    LED_SEQ_5R();
+    return lfsr_state;
 }
 
 // led sequence 1 - pulse eyes on/off
@@ -264,6 +255,15 @@ void LED_SEQ_5R()
     qm_gpio_clear_pin(QM_GPIO_0, LED_ENABLE);
 }
 
+void LED_LOAD()
+{
+    // Eyes up-down.
+    LED_SEQ_3();
+    // Spiral
+    LED_SEQ_5L();
+    LED_SEQ_5R();
+}
+
 bool poll_buttons()
 {
     uint32_t cur_buttons = ~QM_GPIO[0]->gpio_ext_porta;
@@ -351,7 +351,7 @@ int main()
     fast();
 
     qm_gpio_port_config_t cfg = {
-        .direction = BIT(LED_EYE_LEFT) | BIT(LED_EYE_RIGHT) | 
+        .direction = BIT(LED_EYE_LEFT) | BIT(LED_EYE_RIGHT) |
                      BIT(LED_BOTTOM_LEFT) | BIT(LED_BOTTOM_MIDDLE) | BIT(LED_BOTTOM_RIGHT) |
                      BIT(LED_ENABLE)
     };
