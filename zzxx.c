@@ -392,24 +392,36 @@ bool poll_buttons()
 
 	if (cur_buttons & BIT(BTN_R_UP))
 	{
-
+        sequence1();
 	}
-	else if (new_buttons & BIT(BTN_L_RIGHT))
+	else if (new_buttons & BIT(BTN_R_DOWN))
 	{
-
-	}
-	else if (new_buttons & BIT(BTN_L_DOWN))
-	{
-
-	}
-	else if (new_buttons & BIT(BTN_L_LEFT))
-	{
-
+        sequence2();
 	}
 	else if (new_buttons & BIT(BTN_R_RIGHT))
 	{
-
+        sequence3();
 	}
+	else if (new_buttons & BIT(BTN_R_LEFT))
+	{
+        sequence4();
+	}
+	else if (new_buttons & BIT(BTN_L_UP))
+	{
+        sequence_start();
+	}
+    else if (new_buttons & BIT(BTN_L_DOWN))
+    {
+
+    }
+    else if (new_buttons & BIT(BTN_L_RIGHT))
+    {
+        sequence5R(60000);
+    }
+    else if (new_buttons & BIT(BTN_L_LEFT))
+    {
+        sequence5L(60000);
+    }
 
 	return new_buttons != 0;
 }
@@ -427,11 +439,11 @@ int main()
 	fast();
 
 	qm_gpio_port_config_t cfg = {
-		.direction = BIT(LED_BOTTOM_LEFT) | 
-			BIT(LED_BOTTOM_MIDDLE) | 
+		.direction = BIT(LED_BOTTOM_LEFT) |
+			BIT(LED_BOTTOM_MIDDLE) |
 			BIT(LED_BOTTOM_RIGHT) |
-			BIT(LED_EYE_LEFT) | 
-			BIT(LED_EYE_RIGHT) | 
+			BIT(LED_EYE_LEFT) |
+			BIT(LED_EYE_RIGHT) |
 			BIT(LED_ENABLE)
 	};
 
