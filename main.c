@@ -41,6 +41,9 @@ const int button_gpios[] = {
 };
 #define NUM_BUTTONS ARRAY_SIZE(button_gpios)
 
+#define DELAY 240000UL
+#define DELAY2 60000UL
+
 int num_flashes = 3;
 int sleep_time = 15;
 int led_on_time = 2000;
@@ -326,37 +329,6 @@ void startUp()
        clk_sys_udelay(delayTime);
        qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_LEFT);
    }
-
-   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
-   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
-   qm_gpio_set_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
-   qm_gpio_set_pin(QM_GPIO_0, LED_EYE_RIGHT);
-   qm_gpio_set_pin(QM_GPIO_0, LED_EYE_LEFT);
-
-   // All up.
-   for (int i = 0; i < 120; i++)
-   {
-       qm_gpio_set_pin(QM_GPIO_0, LED_ENABLE);
-       clk_sys_udelay(i * 69);
-       qm_gpio_clear_pin(QM_GPIO_0, LED_ENABLE);
-       clk_sys_udelay((120 - i) * 69);
-   }
-
-   // All down.
-   for (int i = 0; i < 120; i++)
-   {
-       qm_gpio_set_pin(QM_GPIO_0, LED_ENABLE);
-       clk_sys_udelay((120 - i) * 69);
-       qm_gpio_clear_pin(QM_GPIO_0, LED_ENABLE);
-       clk_sys_udelay(i * 69);
-   }
-
-   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_LEFT);
-   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_MIDDLE);
-   qm_gpio_clear_pin(QM_GPIO_0, LED_BOTTOM_RIGHT);
-   qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_RIGHT);
-   qm_gpio_clear_pin(QM_GPIO_0, LED_EYE_LEFT);
-   qm_gpio_clear_pin(QM_GPIO_0, LED_ENABLE);
 }
 
 void LED_LOAD()
@@ -379,7 +351,7 @@ bool poll_buttons()
     {
         if (new_buttons & BIT(BTN_L_UP)) // R ▲ + L ▲
         {
-            led_on_time = 500;
+            LED_SEQ_1();
         }
         else if (new_buttons & BIT(BTN_L_RIGHT)) // R ▲ + L ►
         {
@@ -387,7 +359,7 @@ bool poll_buttons()
         }
         else if (new_buttons & BIT(BTN_L_DOWN)) // R ▲ + L ▼
         {
-            led_on_time = 2000;
+            LED_SEQ_2();
         }
         else if (new_buttons & BIT(BTN_L_LEFT)) // R ▲ + L ◄
         {
@@ -395,15 +367,15 @@ bool poll_buttons()
         }
         else if (new_buttons & BIT(BTN_R_RIGHT)) // R ▲ + R ►
         {
-            led_on_time = 10000;
+            LED_SEQ_5R();
         }
         else if (new_buttons & BIT(BTN_R_DOWN)) // R ▲ + R ▼
         {
-            LED_SEQ_1();
+            startUp();
         }
         else if (new_buttons & BIT(BTN_R_LEFT)) // R ▲ + R ◄
         {
-            LED_SEQ_2();
+            LED_SEQ_5L();
         }
     }
     else
@@ -467,7 +439,7 @@ int main()
         qm_pmux_input_en(button_gpios[i], true);
     }
 
-    LED_LOAD();
+    startUp();
     clk_sys_udelay(1000000);
     loadComplete = true;
 
